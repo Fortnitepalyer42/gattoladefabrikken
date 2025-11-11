@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardModel } from '../../models/cardModel';
 
 @Component({
@@ -9,7 +9,10 @@ import { CardModel } from '../../models/cardModel';
 })
 export class DiscardedCard {
   @Input() card!: CardModel;
-  @Input() public clickDiscardedCallback!: (card: CardModel) => boolean;
+  @Output()  clickDiscardedCallback = new EventEmitter<CardModel>();
+  onDiscardedCardClick(): void {
+    this.clickDiscardedCallback.emit(this.card);
+  }
   public returnCardId(): number {
     return this.card.id;
   }

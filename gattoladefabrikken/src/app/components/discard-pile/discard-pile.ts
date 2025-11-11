@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CardModel } from '../../models/cardModel';
 import { DiscardedCard } from '../discarded-card/discarded-card';
 
@@ -9,6 +9,10 @@ import { DiscardedCard } from '../discarded-card/discarded-card';
   styleUrl: './discard-pile.css',
 })
 export class DiscardPile {
-  discardedCards = signal<CardModel[]>([]);
-  @Input() public clickDiscardedCallback!: (card: CardModel) => boolean;
+  @Input() discardedCards!: CardModel[];
+  @Output() clickDiscardedCallback = new EventEmitter<CardModel>();
+  onDiscardedCardClick(card: CardModel): void {
+    console.log("DiscardPile emitting clicked discarded card with id: " + card.id);
+    this.clickDiscardedCallback.emit(card);
+  }
 }

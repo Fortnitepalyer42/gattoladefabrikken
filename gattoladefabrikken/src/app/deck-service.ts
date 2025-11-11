@@ -15,7 +15,7 @@ export class DeckService {
           this.activeCardOne = null;
           this.activeCardTwo = null;
       }
-      public setActiveCard(card: CardModel): boolean {
+    public setActiveCard(card: CardModel): boolean {
           if (!this.activeCardOne) {
               this.activeCardOne = card;
           } else if (!this.activeCardTwo) {
@@ -25,7 +25,8 @@ export class DeckService {
           }
           return true;
       }
-      public drawCard(): boolean {
+    public drawCard(): boolean {
+        console.log("Attempting to draw a card");
           if (this.mainDeck.length === 0 || (this.activeCardOne && this.activeCardTwo)) {
               //deck is empty or both active cards are occupied
               return false;
@@ -43,7 +44,7 @@ export class DeckService {
               return false;
           }
       }
-      public discardActiveCardOne(): boolean {
+    public discardActiveCardOne(): boolean {
           if (this.activeCardOne) {
               this.discardPile.push(this.activeCardOne);
               this.activeCardOne = null;
@@ -51,7 +52,7 @@ export class DeckService {
           }
           return false;
       }
-      public discardActiveCardTwo(): boolean {
+    public discardActiveCardTwo(): boolean {
           if (this.activeCardTwo) {
               this.discardPile.push(this.activeCardTwo);
               this.activeCardTwo = null;
@@ -59,7 +60,7 @@ export class DeckService {
           }
           return false;
       }
-      public returnDiscardedCard(card: CardModel): boolean {
+    public returnDiscardedCard(card: CardModel): boolean {
           const index = this.discardPile.findIndex(c => c.id === card.id);
           if (index !== -1) {
               this.setActiveCard(this.discardPile[index]);
@@ -69,7 +70,7 @@ export class DeckService {
               return false;
           }
       }
-      public resetDeck(): void {
+    public resetDeck(): void {
           this.mainDeck = [...deck];
           this.discardPile = [];
           this.activeCardOne = null;

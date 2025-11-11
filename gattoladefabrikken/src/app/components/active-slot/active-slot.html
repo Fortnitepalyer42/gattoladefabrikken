@@ -1,1 +1,9 @@
-<button (click)="clickActiveCallback(card)">{{card.title}}</button>
+<div>
+@if (card != null) {
+    <button>{{card.title}}</button>
+    <button (click)="onActiveSlotClick()">Discard</button>
+} @else {
+    <button disabled>...</button>
+    <button disabled>No Card</button>
+}
+</div>

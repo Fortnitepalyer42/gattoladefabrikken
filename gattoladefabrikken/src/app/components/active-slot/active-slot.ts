@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter} from '@angular/core';
 import { CardModel } from '../../models/cardModel';
 import { Input } from '@angular/core';
 
@@ -9,10 +9,14 @@ import { Input } from '@angular/core';
   styleUrl: './active-slot.css',
 })
 export class ActiveSlot {
-  @Input() card!: CardModel;
-  @Input() public clickActiveCallback!: (card: CardModel) => boolean;
+  @Input() card!: CardModel | null;
+  @Output() clickActiveCallback = new EventEmitter<void>();
 
-  public returnCardId(): number {
-    return this.card.id;
+  onActiveSlotClick(): void {
+    this.card = null;
+    this.clickActiveCallback.emit();
+  }
+  public returnCard(): CardModel | null {
+    return this.card;
   }
 }

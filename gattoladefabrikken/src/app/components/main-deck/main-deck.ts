@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-main-deck',
@@ -7,5 +7,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './main-deck.css',
 })
 export class MainDeck {
-  @Input() public clickDeckCallback!: () => boolean;
+  @Output() clickDeckCallback = new EventEmitter<void>();
+
+  onDeckClick(): void {
+    this.clickDeckCallback.emit();
+  }
 }

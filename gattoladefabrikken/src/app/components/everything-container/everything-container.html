@@ -1,1 +1,13 @@
-<p>everything-container works!</p>
+<div>
+    <div>
+        <app-card-display></app-card-display>
+    </div>
+    <div>
+        <app-active-slot class="active-slot-one" [card]="activeCardOne()" (clickActiveCallback)="clickActiveCallbackOne()"></app-active-slot>
+        <app-active-slot class="active-slot-two" [card]="activeCardTwo()" (clickActiveCallback)="clickActiveCallbackTwo()"></app-active-slot>
+    </div>
+    <div>
+        <app-main-deck (clickDeckCallback)="clickDeckCallback()"></app-main-deck>
+        <app-discard-pile (clickDiscardedCallback)="clickDiscardedCallback($event)" [discardedCards]="discardedCards()"></app-discard-pile>
+    </div>
+</div>
