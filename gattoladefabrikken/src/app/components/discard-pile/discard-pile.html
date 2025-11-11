@@ -1,0 +1,5 @@
+<div>
+    @for (card of discardedCards(); track card.id) {
+        <app-discarded-card [card]="card" [clickDiscardedCallback]="clickDiscardedCallback"></app-discarded-card>
+    }
+</div>
