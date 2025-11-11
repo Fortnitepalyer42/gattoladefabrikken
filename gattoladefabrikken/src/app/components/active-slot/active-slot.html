@@ -1,9 +1,11 @@
 <div>
-@if (card != null) {
-    <button (click)="displayCard()">{{card.title}}</button>
-    <button (click)="onActiveSlotClick()">Discard</button>
-} @else {
-    <button disabled>...</button>
-    <button disabled>No Card</button>
-}
+    <div class="inner-container">
+    @if (card != null) {
+        <button class="active-button mission" (click)="displayCard()">{{card.title}}</button>
+        <button class="active-button discard" (click)="onActiveSlotClick()">Discard</button>
+    } @else {
+        <button class="active-button mission" disabled>...</button>
+        <button class="active-button" disabled>No Card</button>
+    }
+    </div>
 </div>
