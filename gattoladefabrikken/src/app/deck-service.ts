@@ -63,7 +63,7 @@ export class DeckService {
     public returnDiscardedCard(card: CardModel): boolean {
           const index = this.discardPile.findIndex(c => c.id === card.id);
           if (index !== -1) {
-              this.setActiveCard(this.discardPile[index]);
+            if (this.setActiveCard(this.discardPile[index]))
               this.discardPile.splice(index, 1);
               return true;
           } else {
@@ -76,4 +76,9 @@ export class DeckService {
           this.activeCardOne = null;
           this.activeCardTwo = null;
       }
+    public getCardById(cardId: number): CardModel | null {
+        const foundCard = deck.find(c => c.id === cardId)
+        if (foundCard) { return foundCard}
+        return null
+    }
 }

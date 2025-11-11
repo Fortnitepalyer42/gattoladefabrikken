@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CardModel } from '../../models/cardModel';
+import { CardModel, deck } from '../../models/cardModel';
 import { CardDisplay } from '../card-display/card-display';
 import { ActiveSlot } from '../active-slot/active-slot';
 import { DiscardPile } from '../discard-pile/discard-pile';
@@ -19,6 +19,8 @@ export class EverythingContainer {
   activeCardTwo = signal<CardModel | null>(null);
   discardedCards = signal<CardModel[]>([]);
   mainDeckCount = signal<number>(0);
+  displayedCardTitle = '...';
+  displayedCardDescription = '...';
   constructor() {
     this.activeCardOne.set(this.deckService.activeCardOne);
     this.activeCardTwo.set(this.deckService.activeCardTwo);
@@ -27,29 +29,10 @@ export class EverythingContainer {
     console.log("EverythingContainer initialized" + this.mainDeckCount()  + " cards in main deck.");
   }
   clickDeckCallback(): void {
-    console.log("Callback to draw card triggered");
-    this.drawCard();
-  }
-  drawCard(): void {
-    var res = this.deckService.drawCard();
-    if (res) {
-      console.log("Drew a card");
-      this.updateSignals();
-    } else {
-      console.log("Could not draw a card");
-    }
+    this.handleUpdateCallback(() => this.deckService.drawCard());
   }
   clickDiscardedCallback(card: CardModel): void {
-    this.returnDiscardedCard(card);
-  }
-  returnDiscardedCard(card: CardModel): void {
-    var res = this.deckService.returnDiscardedCard(card)
-    if (res) {
-      console.log("Returned discarded card with id " + card.id + " to main deck.");
-      this.updateSignals();
-    } else {
-      console.log("Could not return discarded card with id " + card.id + " to main deck.");
-    }
+    this.handleUpdateCallback(() => this.deckService.returnDiscardedCard(card));
   }
   clickActiveCallbackOne(): void {
     this.discardActiveCard(1);
@@ -58,15 +41,16 @@ export class EverythingContainer {
     this.discardActiveCard(2);
   }
   discardActiveCard(slot: number): void {
-    var res;
-    if (slot === 1) {
-      res = this.deckService.discardActiveCardOne();
-    } else if (slot === 2) {
-      res = this.deckService.discardActiveCardTwo();
-    }
+    if (slot === 1) { this.handleUpdateCallback(() => this.deckService.discardActiveCardOne());} 
+    else if (slot === 2) { this.handleUpdateCallback(() => this.deckService.discardActiveCardTwo());}
+  }
+  handleUpdateCallback(input: () => boolean): void {
+    var res = input();
     if (res) {
-      console.log("Discarded active card from slot " + slot);
+      console.log("Update callback executed successfully.");
       this.updateSignals();
+    } else {
+      console.log("Update callback failed.");
     }
   }
   private updateSignals(): void {
@@ -74,5 +58,18 @@ export class EverythingContainer {
     this.activeCardTwo.set(this.deckService.activeCardTwo);
     this.discardedCards.set(this.deckService.discardPile);
     this.mainDeckCount.set(this.deckService.mainDeck.length);
+  }
+  displayCallback(cardId: number) {
+    console.log("display callback called for id: "+ cardId)
+    if (cardId <= 0) {
+      this.displayedCardTitle = '...';
+      this.displayedCardDescription = '...';
+    } else {
+      var res = this.deckService.getCardById(cardId);
+      if (res) {
+        this.displayedCardTitle = res.title;
+        this.displayedCardDescription = res.desc;
+      }
+    }
   }
 }

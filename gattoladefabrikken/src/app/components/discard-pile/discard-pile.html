@@ -1,5 +1,5 @@
 <div>
     @for (card of discardedCards; track card.id) {
-        <app-discarded-card [card]="card" (clickDiscardedCallback)="onDiscardedCardClick($event)"></app-discarded-card>
+        <app-discarded-card [card]="card" (clickDiscardedCallback)="onDiscardedCardClick($event)" (displayCallback)="nestedDisplayCard($event)"></app-discarded-card>
     }
 </div>

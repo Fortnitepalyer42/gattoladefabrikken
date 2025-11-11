@@ -10,10 +10,11 @@ import { CardModel } from '../../models/cardModel';
 export class DiscardedCard {
   @Input() card!: CardModel;
   @Output()  clickDiscardedCallback = new EventEmitter<CardModel>();
+  @Output() displayCallback = new EventEmitter<number>();
   onDiscardedCardClick(): void {
     this.clickDiscardedCallback.emit(this.card);
   }
-  public returnCardId(): number {
-    return this.card.id;
+  displayCard(): void {
+    this.displayCallback.emit(this.card?.id ?? -1);
   }
 }

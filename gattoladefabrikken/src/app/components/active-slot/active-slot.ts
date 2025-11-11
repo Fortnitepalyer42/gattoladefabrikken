@@ -11,12 +11,13 @@ import { Input } from '@angular/core';
 export class ActiveSlot {
   @Input() card!: CardModel | null;
   @Output() clickActiveCallback = new EventEmitter<void>();
+  @Output() displayCallback = new EventEmitter<number>();
 
   onActiveSlotClick(): void {
     this.card = null;
     this.clickActiveCallback.emit();
   }
-  public returnCard(): CardModel | null {
-    return this.card;
+  displayCard(): void {
+    this.displayCallback.emit(this.card?.id ?? -1);
   }
 }

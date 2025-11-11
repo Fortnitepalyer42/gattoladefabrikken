@@ -1,13 +1,13 @@
 <div>
     <div>
-        <app-card-display></app-card-display>
+        <app-card-display [title]="displayedCardTitle" [description]="displayedCardDescription"></app-card-display>
     </div>
     <div>
-        <app-active-slot class="active-slot-one" [card]="activeCardOne()" (clickActiveCallback)="clickActiveCallbackOne()"></app-active-slot>
-        <app-active-slot class="active-slot-two" [card]="activeCardTwo()" (clickActiveCallback)="clickActiveCallbackTwo()"></app-active-slot>
+        <app-active-slot class="active-slot-one" [card]="activeCardOne()" (clickActiveCallback)="clickActiveCallbackOne()" (displayCallback)="displayCallback($event)"></app-active-slot>
+        <app-active-slot class="active-slot-two" [card]="activeCardTwo()" (clickActiveCallback)="clickActiveCallbackTwo()" (displayCallback)="displayCallback($event)"></app-active-slot>
     </div>
     <div>
         <app-main-deck (clickDeckCallback)="clickDeckCallback()"></app-main-deck>
-        <app-discard-pile (clickDiscardedCallback)="clickDiscardedCallback($event)" [discardedCards]="discardedCards()"></app-discard-pile>
+        <app-discard-pile (clickDiscardedCallback)="clickDiscardedCallback($event)" [discardedCards]="discardedCards()" (displayCallback)="displayCallback($event)"></app-discard-pile>
     </div>
 </div>

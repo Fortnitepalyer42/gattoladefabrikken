@@ -11,8 +11,12 @@ import { DiscardedCard } from '../discarded-card/discarded-card';
 export class DiscardPile {
   @Input() discardedCards!: CardModel[];
   @Output() clickDiscardedCallback = new EventEmitter<CardModel>();
+  @Output() displayCallback = new EventEmitter<number>();
   onDiscardedCardClick(card: CardModel): void {
     console.log("DiscardPile emitting clicked discarded card with id: " + card.id);
     this.clickDiscardedCallback.emit(card);
+  }
+  nestedDisplayCard(cardId: number): void {
+    this.displayCallback.emit(cardId);
   }
 }
