@@ -1,6 +1,0 @@
-<div class="inner-container">
-    <p>Discard Pile</p>
-    @for (card of discardedCards; track card.id) {
-        <app-discarded-card [card]="card" (clickDiscardedCallback)="onDiscardedCardClick($event)" (displayCallback)="nestedDisplayCard($event)"></app-discarded-card>
-    }
-</div>
