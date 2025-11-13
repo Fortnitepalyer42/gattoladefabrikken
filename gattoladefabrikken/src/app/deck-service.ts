@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardModel, deck, CardScore } from './models/cardModel';
+import { CardModel, deck } from './models/cardModel';
 
 @Injectable({
   providedIn: 'root',
@@ -9,17 +9,11 @@ export class DeckService {
       public discardPile: CardModel[] = [];
       public activeCardOne: CardModel | null = null;
       public activeCardTwo: CardModel | null = null; 
-      public cardScores: CardScore[] = [];
       constructor() {
           this.mainDeck = [...deck];
           this.discardPile = [];
           this.activeCardOne = null;
           this.activeCardTwo = null;
-          var index: number = 1;
-          for (index; index <= 20; index++ ){
-            this.cardScores.push({ id: index , score: 0});
-          }
-          console.assert(this.cardScores.length == 20);
       }
     public setActiveCard(card: CardModel): boolean {
           if (!this.activeCardOne) {
@@ -85,22 +79,21 @@ export class DeckService {
     public getCardById(cardId: number): CardModel | null {
         if (cardId < 1 || cardId > 20)
             return null;
-        const foundCard: CardModel | undefined = deck.find(c => c.id === cardId)
+        const foundCard: CardModel | undefined = deck.find(c => c.id === cardId);
         if (foundCard) { return foundCard}
         return null
     }
 
-    public incrementScore(cardId: number): CardScore | null {
+    public incrementScore(cardId: number): CardModel | null {
         if (cardId < 1 || cardId > 20)
             return null;
-        const score: CardScore | undefined = this.cardScores.find(cs => cs.id === cardId)
-        if (score){
-            if (score.score == 5)
-                score.score = 0;
+        const scoringCard: CardModel | undefined = deck.find(c => c.id === cardId);
+        if (scoringCard){
+            if (scoringCard.score == 5)
+                scoringCard.score = 0;
             else 
-                score.score++
-            this.cardScores[score.id -1] = score;
-            return score;
+                scoringCard.score++
+            return scoringCard;
         }
         return null;
     }

@@ -60,7 +60,6 @@ export class EverythingContainer {
     this.mainDeckCount.set(this.deckService.mainDeck.length);
   }
   displayCallback(cardId: number) {
-    console.log("display callback called for id: "+ cardId)
     if (cardId <= 0) {
       this.displayedCardTitle = '...';
       this.displayedCardDescription = '...';
@@ -69,6 +68,20 @@ export class EverythingContainer {
       if (res) {
         this.displayedCardTitle = res.title;
         this.displayedCardDescription = res.desc;
+      }
+    }
+  }
+  scoreIncrementUpdate(cardId: number) {
+    if (cardId <= 0) {
+      console.warn("Invalid card for score increment!!");
+    } else {
+      var res = this.deckService.incrementScore(cardId);
+      if (res) {
+        this.updateSignals();
+      }
+      else
+      {
+        console.warn("failed to find card " + res);
       }
     }
   }

@@ -12,6 +12,7 @@ export class ActiveSlot {
   @Input() card!: CardModel | null;
   @Output() clickActiveCallback = new EventEmitter<void>();
   @Output() displayCallback = new EventEmitter<number>();
+  @Output() incrementScoreCallback = new EventEmitter<number>();
 
   onActiveSlotClick(): void {
     this.card = null;
@@ -19,5 +20,8 @@ export class ActiveSlot {
   }
   displayCard(): void {
     this.displayCallback.emit(this.card?.id ?? -1);
+  }
+  onIncrementScore(): void {
+    this.incrementScoreCallback.emit(this.card?.id ?? -1);
   }
 }
