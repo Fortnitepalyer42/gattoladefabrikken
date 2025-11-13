@@ -4,6 +4,11 @@ export interface CardModel {
     desc: string;
 }
 
+export interface CardScore {
+    id: number;
+    score: number;
+}
+
 export const deck: CardModel[] = [
     { id: 1, title: 'Plant Beacons', desc: 'ACTION: Begin planting beacons while within 6" of a battlefield edge.\nEnd of round: 1VP for each unit planting beacons per battlefield edge' },
     { id: 2, title: 'Outflank', desc: 'End of round: for each battlefield corner after the first, which you have a unit within 9", you score 1VP' },
