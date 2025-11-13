@@ -97,4 +97,14 @@ export class DeckService {
         }
         return null;
     }
+
+    public getTotalScore(): number {
+        var index: number = 0;
+        var acc: number = 0;
+        for (index; index < deck.length; index++)
+        {
+            acc += deck[index].score;
+        }
+        return acc;
+    }
 }

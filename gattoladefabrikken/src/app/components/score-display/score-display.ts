@@ -1,0 +1,11 @@
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-score-display',
+  imports: [],
+  templateUrl: './score-display.html',
+  styleUrl: './score-display.css',
+})
+export class ScoreDisplay {
+  @Input() score!: number;
+}

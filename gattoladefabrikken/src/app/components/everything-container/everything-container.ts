@@ -6,10 +6,11 @@ import { DiscardPile } from '../discard-pile/discard-pile';
 import { MainDeck } from '../main-deck/main-deck';
 import { DeckService } from '../../deck-service';
 import { inject } from '@angular/core';
+import { ScoreDisplay } from '../score-display/score-display';
 
 @Component({
   selector: 'app-everything-container',
-  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay],
+  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay, ScoreDisplay],
   templateUrl: './everything-container.html',
   styleUrl: './everything-container.css',
 })
@@ -19,6 +20,7 @@ export class EverythingContainer {
   activeCardTwo = signal<CardModel | null>(null);
   discardedCards = signal<CardModel[]>([]);
   mainDeckCount = signal<number>(0);
+  totalScore = signal<number>(0);
   displayedCardTitle = '...';
   displayedCardDescription = '...';
   constructor() {
@@ -77,7 +79,7 @@ export class EverythingContainer {
     } else {
       var res = this.deckService.incrementScore(cardId);
       if (res) {
-        this.updateSignals();
+        this.totalScore.set(this.deckService.getTotalScore());
       }
       else
       {
