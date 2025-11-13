@@ -13,6 +13,9 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/gattoladefabrikken",
+            "index": "src/index.html",
+            "baseHref": "/gattoladefabrikken/",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
