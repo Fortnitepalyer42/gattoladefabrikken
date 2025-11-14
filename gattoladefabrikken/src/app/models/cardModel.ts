@@ -5,6 +5,8 @@ export interface CardModel {
     desc: string;
 }
 
+export const  MaxDeckSize: number = 20;
+
 export var deck: CardModel[] = [
     { id: 1, score: 0, title: 'Plant Beacons', desc: 'ACTION: Begin planting beacons while within 6" of a battlefield edge.\nEnd of round: 1VP for each unit planting beacons per battlefield edge' },
     { id: 2, score: 0, title: 'Outflank', desc: 'End of round: for each battlefield corner after the first, which you have a unit within 9", you score 1VP' },

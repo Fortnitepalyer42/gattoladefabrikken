@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardModel, deck } from './models/cardModel';
+import { CardModel, deck, MaxDeckSize } from './models/cardModel';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +76,7 @@ export class DeckService {
         this.activeCardTwo = null;
     }
     public getCardById(cardId: number): CardModel | null {
-        if (cardId < 1 || cardId > 20)
+        if (cardId < 1 || cardId > MaxDeckSize)
             return null;
         const foundCard: CardModel | undefined = deck.find(c => c.id === cardId);
         if (foundCard) { return foundCard}
@@ -84,7 +84,7 @@ export class DeckService {
     }
 
     public incrementScore(cardId: number): CardModel | null {
-        if (cardId < 1 || cardId > 20)
+        if (cardId < 1 || cardId > MaxDeckSize)
             return null;
         const scoringCard: CardModel | undefined = deck.find(c => c.id === cardId);
         if (scoringCard){
