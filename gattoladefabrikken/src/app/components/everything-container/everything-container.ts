@@ -30,16 +30,16 @@ export class EverythingContainer {
     this.mainDeckCount.set(this.deckService.mainDeck.length);
     console.log("EverythingContainer initialized" + this.mainDeckCount()  + " cards in main deck.");
   }
-  clickDeckCallback(): void {
+  drawCardCallback(): void {
     this.handleUpdateCallback(() => this.deckService.drawCard());
   }
   clickDiscardedCallback(card: CardModel): void {
     this.handleUpdateCallback(() => this.deckService.returnDiscardedCard(card));
   }
-  clickActiveCallbackOne(): void {
+  discardActiveCallbackOne(): void {
     this.discardActiveCard(1);
   }
-  clickActiveCallbackTwo(): void {
+  discardActiveCallbackTwo(): void {
     this.discardActiveCard(2);
   }
   discardActiveCard(slot: number): void {

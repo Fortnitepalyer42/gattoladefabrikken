@@ -4,11 +4,11 @@
     </div>
     <div class="active-slot-container">
         <p class="subtitle">Active Objectives</p>
-        <app-active-slot class="active-slot-one" [card]="activeCardOne()" (clickActiveCallback)="clickActiveCallbackOne()" (displayCallback)="displayCallback($event)" (incrementScoreCallback)="scoreIncrementUpdate($event)"></app-active-slot>
-        <app-active-slot class="active-slot-two" [card]="activeCardTwo()" (clickActiveCallback)="clickActiveCallbackTwo()" (displayCallback)="displayCallback($event)" (incrementScoreCallback)="scoreIncrementUpdate($event)"></app-active-slot>
+        <app-active-slot class="active-slot-one" [card]="activeCardOne()" (discardActiveCallback)="discardActiveCallbackOne()" (displayCallback)="displayCallback($event)" (incrementScoreCallback)="scoreIncrementUpdate($event)"></app-active-slot>
+        <app-active-slot class="active-slot-two" [card]="activeCardTwo()" (discardActiveCallback)="discardActiveCallbackTwo()" (displayCallback)="displayCallback($event)" (incrementScoreCallback)="scoreIncrementUpdate($event)"></app-active-slot>
     </div>
     <div class="lower-container">
-        <app-main-deck (clickDeckCallback)="clickDeckCallback()"></app-main-deck>
+        <app-main-deck (drawCardCallback)="drawCardCallback()"></app-main-deck>
         <app-score-display [score]="totalScore()"></app-score-display>
         <app-discard-pile (clickDiscardedCallback)="clickDiscardedCallback($event)" [discardedCards]="discardedCards()" (displayCallback)="displayCallback($event)"></app-discard-pile>
     </div>

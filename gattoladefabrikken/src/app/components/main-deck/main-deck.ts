@@ -7,9 +7,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './main-deck.css',
 })
 export class MainDeck {
-  @Output() clickDeckCallback = new EventEmitter<void>();
+  @Output() drawCardCallback = new EventEmitter<void>();
 
   onDeckClick(): void {
-    this.clickDeckCallback.emit();
+    this.drawCardCallback.emit();
   }
 }
