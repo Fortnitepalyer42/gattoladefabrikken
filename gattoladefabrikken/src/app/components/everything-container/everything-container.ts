@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { CardModel, deck } from '../../models/cardModel';
+import { CardModel, SavedGameState } from '../../models/cardModel';
 import { CardDisplay } from '../card-display/card-display';
 import { ActiveSlot } from '../active-slot/active-slot';
 import { DiscardPile } from '../discard-pile/discard-pile';
 import { MainDeck } from '../main-deck/main-deck';
-import { DeckService } from '../../deck-service';
+import { DeckService } from '../../services/deck-service';
 import { inject } from '@angular/core';
 import { ScoreDisplay } from '../score-display/score-display';
+import { ApplicationStateService } from '../../services/application-state-service';
 
 @Component({
   selector: 'app-everything-container',
@@ -16,6 +17,7 @@ import { ScoreDisplay } from '../score-display/score-display';
 })
 export class EverythingContainer {
   public deckService = inject(DeckService)
+  public savedStateService = inject(ApplicationStateService)
   activeCardOne = signal<CardModel | null>(null);
   activeCardTwo = signal<CardModel | null>(null);
   discardedCards = signal<CardModel[]>([]);
@@ -24,10 +26,13 @@ export class EverythingContainer {
   displayedCardTitle = '...';
   displayedCardDescription = '...';
   constructor() {
-    this.activeCardOne.set(this.deckService.activeCardOne);
-    this.activeCardTwo.set(this.deckService.activeCardTwo);
-    this.discardedCards.set(this.deckService.discardPile);
-    this.mainDeckCount.set(this.deckService.mainDeck.length);
+    var loadedSaveState = this.savedStateService.getState()
+    if (loadedSaveState) {
+      console.log("Previous session state found and loaded", loadedSaveState)
+      this.deckService.setState(loadedSaveState);
+      this.totalScore.set(this.deckService.getTotalScore());
+    } else console.log("No previous session found. Starting from defautl values.")
+    this.updateSignals()
     console.log("EverythingContainer initialized" + this.mainDeckCount()  + " cards in main deck.");
   }
   drawCardCallback(): void {
@@ -60,6 +65,7 @@ export class EverythingContainer {
     this.activeCardTwo.set(this.deckService.activeCardTwo);
     this.discardedCards.set(this.deckService.discardPile);
     this.mainDeckCount.set(this.deckService.mainDeck.length);
+    this.saveGameState();
   }
   displayCallback(cardId: number) {
     if (cardId <= 0) {
@@ -86,5 +92,9 @@ export class EverythingContainer {
         console.warn("failed to find card " + res);
       }
     }
+  }
+  saveGameState() {
+    var saveState: SavedGameState = {activeOne: this.deckService.activeCardOne, activeTwo: this.deckService.activeCardTwo, discarded: this.deckService.discardPile, currentDeck: this.deckService.mainDeck};
+    this.savedStateService.setState(saveState);
   }
 }

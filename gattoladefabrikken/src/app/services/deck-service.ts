@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CardModel, deck, MaxDeckSize } from './models/cardModel';
+import { CardModel, deck, MaxDeckSize, SavedGameState } from '../models/cardModel';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeckService {
-  public mainDeck: CardModel[] = [];
-      public discardPile: CardModel[] = [];
-      public activeCardOne: CardModel | null = null;
-      public activeCardTwo: CardModel | null = null; 
-      constructor() {
-          this.mainDeck = [...deck];
-          this.discardPile = [];
-          this.activeCardOne = null;
-          this.activeCardTwo = null;
-      }
+    public mainDeck: CardModel[] = [];
+    public discardPile: CardModel[] = [];
+    public activeCardOne: CardModel | null = null;
+    public activeCardTwo: CardModel | null = null; 
+    constructor() {
+        this.mainDeck = [...deck];
+        this.discardPile = [];
+        this.activeCardOne = null;
+        this.activeCardTwo = null;
+    }
     public setActiveCard(card: CardModel): boolean {
           if (!this.activeCardOne) {
               this.activeCardOne = card;
@@ -45,6 +45,7 @@ export class DeckService {
     }
     public discardActiveCardOne(): boolean {
         if (this.activeCardOne) {
+            console.log(this.activeCardOne)
             this.discardPile.push(this.activeCardOne);
             this.activeCardOne = null;
             return true;
@@ -84,9 +85,11 @@ export class DeckService {
     }
 
     public incrementScore(cardId: number): CardModel | null {
-        if (cardId < 1 || cardId > MaxDeckSize)
-            return null;
-        const scoringCard: CardModel | undefined = deck.find(c => c.id === cardId);
+        var scoringCard: CardModel | null = null;
+        if (cardId === this.activeCardOne?.id) 
+            {scoringCard = this.activeCardOne;} 
+        else if (cardId === this.activeCardTwo?.id) 
+            {scoringCard = this.activeCardTwo;} 
         if (scoringCard){
             if (scoringCard.score == 5)
                 scoringCard.score = 0;
@@ -94,16 +97,31 @@ export class DeckService {
                 scoringCard.score++
             return scoringCard;
         }
+        console.warn("CardId: "+ cardId + " does not match any active cards");
         return null;
     }
 
     public getTotalScore(): number {
         var index: number = 0;
         var acc: number = 0;
-        for (index; index < deck.length; index++)
+        if (this.activeCardOne){
+            acc += this.activeCardOne.score;
+        }
+        if (this.activeCardTwo){
+            acc += this.activeCardTwo.score;
+        }
+        for (index; index < this.discardPile.length; index++)
         {
-            acc += deck[index].score;
+            acc += this.discardPile[index].score;
         }
         return acc;
+    }
+
+    public setState(state: SavedGameState) {
+        this.resetDeck();
+        this.mainDeck = [...state.currentDeck];
+        this.activeCardOne = state.activeOne;
+        this.activeCardTwo = state.activeTwo;
+        this.discardPile = state.discarded;
     }
 }
