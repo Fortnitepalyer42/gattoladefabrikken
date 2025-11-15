@@ -8,10 +8,11 @@ import { DeckService } from '../../services/deck-service';
 import { inject } from '@angular/core';
 import { ScoreDisplay } from '../score-display/score-display';
 import { ApplicationStateService } from '../../services/application-state-service';
+import { ResetButton } from '../reset-button/reset-button';
 
 @Component({
   selector: 'app-everything-container',
-  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay, ScoreDisplay],
+  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay, ScoreDisplay, ResetButton],
   templateUrl: './everything-container.html',
   styleUrl: './everything-container.css',
 })
@@ -40,6 +41,12 @@ export class EverythingContainer {
   }
   clickDiscardedCallback(card: CardModel): void {
     this.handleUpdateCallback(() => this.deckService.returnDiscardedCard(card));
+  }
+  resetCallback(): void {
+    this.deckService.resetDeck();
+    this.savedStateService.clear();
+    this.totalScore.set(0);
+    this.updateSignals();
   }
   discardActiveCallbackOne(): void {
     this.discardActiveCard(1);

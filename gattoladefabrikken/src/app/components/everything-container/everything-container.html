@@ -12,4 +12,7 @@
         <app-score-display [score]="totalScore()"></app-score-display>
         <app-discard-pile (clickDiscardedCallback)="clickDiscardedCallback($event)" [discardedCards]="discardedCards()" (displayCallback)="displayCallback($event)"></app-discard-pile>
     </div>
+    <div>
+        <app-reset-button (resetCallback)="resetCallback()"></app-reset-button>
+    </div>
 </div>
