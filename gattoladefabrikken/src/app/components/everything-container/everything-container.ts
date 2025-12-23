@@ -9,10 +9,11 @@ import { inject } from '@angular/core';
 import { ScoreDisplay } from '../score-display/score-display';
 import { ApplicationStateService } from '../../services/application-state-service';
 import { ResetButton } from '../reset-button/reset-button';
+import { PrimaryContainer } from '../primary-container/primary-container';
 
 @Component({
   selector: 'app-everything-container',
-  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay, ScoreDisplay, ResetButton],
+  imports: [DiscardPile, MainDeck, ActiveSlot, CardDisplay, ScoreDisplay, ResetButton, PrimaryContainer],
   templateUrl: './everything-container.html',
   styleUrl: './everything-container.css',
 })
@@ -24,6 +25,7 @@ export class EverythingContainer {
   discardedCards = signal<CardModel[]>([]);
   mainDeckCount = signal<number>(0);
   totalScore = signal<number>(0);
+  primaryScores = signal<number[]>([0,0,0,0]);
   displayedCardTitle = '...';
   displayedCardDescription = '...';
   constructor() {
@@ -32,6 +34,7 @@ export class EverythingContainer {
       console.log("Previous session state found and loaded", loadedSaveState)
       this.deckService.setState(loadedSaveState);
       this.totalScore.set(this.deckService.getTotalScore());
+      this.primaryScores.set(this.deckService.primaryScores);
     } else console.log("No previous session found. Starting from defautl values.")
     this.updateSignals()
     console.log("EverythingContainer initialized" + this.mainDeckCount()  + " cards in main deck.");
@@ -42,10 +45,15 @@ export class EverythingContainer {
   clickDiscardedCallback(card: CardModel): void {
     this.handleUpdateCallback(() => this.deckService.returnDiscardedCard(card));
   }
+  updatePrimaryScoreCallback(scores: number[]) {
+    this.deckService.primaryScores = scores;
+    this.updateSignals();
+  }
   resetCallback(): void {
     this.deckService.resetDeck();
     this.savedStateService.clear();
     this.totalScore.set(0);
+    this.primaryScores.set([0,0,0,0]);
     this.updateSignals();
   }
   discardActiveCallbackOne(): void {
@@ -72,6 +80,8 @@ export class EverythingContainer {
     this.activeCardTwo.set(this.deckService.activeCardTwo);
     this.discardedCards.set(this.deckService.discardPile);
     this.mainDeckCount.set(this.deckService.mainDeck.length);
+    this.primaryScores.set(this.deckService.primaryScores);
+    this.totalScore.set(this.deckService.getTotalScore());
     this.saveGameState();
   }
   displayCallback(cardId: number) {
@@ -101,7 +111,7 @@ export class EverythingContainer {
     }
   }
   saveGameState() {
-    var saveState: SavedGameState = {activeOne: this.deckService.activeCardOne, activeTwo: this.deckService.activeCardTwo, discarded: this.deckService.discardPile, currentDeck: this.deckService.mainDeck};
+    var saveState: SavedGameState = {activeOne: this.deckService.activeCardOne, activeTwo: this.deckService.activeCardTwo, discarded: this.deckService.discardPile, currentDeck: this.deckService.mainDeck, primaryScore: this.deckService.primaryScores};
     this.savedStateService.setState(saveState);
   }
 }

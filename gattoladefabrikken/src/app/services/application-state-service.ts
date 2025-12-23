@@ -14,10 +14,14 @@ export class ApplicationStateService {
     localStorage.setItem(this.storageKey, JSON.stringify(this._savedState));
   }
 
-  getState() {
+  getState(): SavedGameState {
+    if (!this._savedState) {
+      this._savedState = { primaryScore: [0,0,0,0] } as SavedGameState;
+    } else if (!this._savedState.primaryScore) {
+      this._savedState.primaryScore = [0,0,0,0];
+    }
     return this._savedState;
   }
-
   clear(){
     console.log("Clearing save data");
     localStorage.clear();

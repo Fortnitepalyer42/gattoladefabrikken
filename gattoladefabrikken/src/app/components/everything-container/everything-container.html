@@ -1,4 +1,7 @@
 <div class="outer-container">
+    <div>
+        <app-primary-container [primaryScores]="primaryScores()" (primaryScoresChange)="updatePrimaryScoreCallback($event)"></app-primary-container>
+    </div>
     <div class="display-container">
         <app-card-display [title]="displayedCardTitle" [description]="displayedCardDescription"></app-card-display>
     </div>

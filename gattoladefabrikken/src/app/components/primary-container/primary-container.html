@@ -1,0 +1,8 @@
+<p>primary-container works!</p>
+<div>
+    <p>Primary Score</p>
+    @for (pscore of primaryScores; track $index) 
+    {
+    <app-primary-counter [score]="pscore" (scoreChange)="onScoreChange($index, $event)"></app-primary-counter>
+    }
+</div>

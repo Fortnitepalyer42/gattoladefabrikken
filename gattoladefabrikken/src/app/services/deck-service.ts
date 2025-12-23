@@ -9,11 +9,13 @@ export class DeckService {
     public discardPile: CardModel[] = [];
     public activeCardOne: CardModel | null = null;
     public activeCardTwo: CardModel | null = null; 
+    public primaryScores: number[] = [0,0,0,0];
     constructor() {
         this.mainDeck = [...deck];
         this.discardPile = [];
         this.activeCardOne = null;
         this.activeCardTwo = null;
+        this.primaryScores = [0,0,0,0];
     }
     public setActiveCard(card: CardModel): boolean {
           if (!this.activeCardOne) {
@@ -75,6 +77,7 @@ export class DeckService {
         this.discardPile = [];
         this.activeCardOne = null;
         this.activeCardTwo = null;
+        this.primaryScores = [0,0,0,0];
     }
     public getCardById(cardId: number): CardModel | null {
         if (cardId < 1 || cardId > MaxDeckSize)
@@ -114,6 +117,11 @@ export class DeckService {
         {
             acc += this.discardPile[index].score;
         }
+        index = 0;
+        for (index; index < this.primaryScores.length; index++)
+        {
+            acc += this.primaryScores[index];
+        }
         return acc;
     }
 
@@ -123,5 +131,6 @@ export class DeckService {
         this.activeCardOne = state.activeOne;
         this.activeCardTwo = state.activeTwo;
         this.discardPile = state.discarded;
+        this.primaryScores = state.primaryScore;
     }
 }

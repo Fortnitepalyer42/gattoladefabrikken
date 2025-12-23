@@ -7,7 +7,7 @@ export interface CardModel {
 
 export const  MaxDeckSize: number = 20;
 
-export interface SavedGameState {activeOne: CardModel | null; activeTwo: CardModel | null; discarded: CardModel[]; currentDeck: CardModel[]; };
+export interface SavedGameState {activeOne: CardModel | null; activeTwo: CardModel | null; discarded: CardModel[]; currentDeck: CardModel[]; primaryScore: number[] };
 
 export var deck: CardModel[] = [
     { id: 1, score: 0, title: 'Plant Beacons', desc: 'ACTION: Begin planting beacons while within 6" of a battlefield edge.\nEnd of round: 1VP for each unit planting beacons per battlefield edge' },
